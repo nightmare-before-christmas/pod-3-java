@@ -1,30 +1,37 @@
-import java.util.Arrays;
+import java.util.*;
 
 public class RobertJava {
     public static void main(String[] args) {
 //    problem 1
-//        String[] strArray1 = {"s", "t", "r", "i", "n", "g", "w"};
-//        System.out.println(Arrays.toString(removeLetters(strArray1, "string")));
-//        String[] strArray2 = {"b", "b", "l", "l", "g", "n", "o", "a", "w"};
-//        System.out.println(Arrays.toString(removeLetters(strArray2, "balloon")));
-//        String[] strArray3 = {"d", "b", "t", "e", "a", "i"};
-//        System.out.println(Arrays.toString(removeLetters(strArray3, "edabit")));
-
+        String[] strArray1 = {"s", "t", "r", "i", "n", "g", "w"};
+        System.out.println(Arrays.toString(removeLetters(strArray1, "string")));
+        String[] strArray2 = {"b", "b", "l", "l", "g", "n", "o", "a", "w"};
+        System.out.println(Arrays.toString(removeLetters(strArray2, "balloon")));
+        String[] strArray3 = {"d", "b", "t", "e", "a", "i"};
+        System.out.println(Arrays.toString(removeLetters(strArray3, "edabit")));
+        System.out.println();
 
 //        Problem 2
-//        System.out.println(translateWord("flag"));
-//        System.out.println(translateWord("Apple"));
-//        System.out.println(translateWord("button"));
-//        System.out.println(translateWord(""));
-//
-//        System.out.println(translateSentence("I like to eat honey waffles."));
-//        System.out.println(translateSentence("Do you think it is going to rain today?"));
+        System.out.println(translateWord("flag"));
+        System.out.println(translateWord("Apple"));
+        System.out.println(translateWord("button"));
+        System.out.println(translateWord(""));
+        System.out.println(translateSentence("I like to eat honey waffles."));
+        System.out.println(translateSentence("Do you think it is going to rain today?"));
+        System.out.println();
 
 //        Problem 3
         System.out.println(convertToRoman(2));
         System.out.println(convertToRoman(12));
         System.out.println(convertToRoman(16));
 //        System.out.println(convertToRoman(3999));
+        System.out.println();
+
+//        problem 4
+        System.out.println(longestSubstring("225424272163254474441338664823"));
+        System.out.println(longestSubstring("594127169973391692147228678476"));
+        System.out.println(longestSubstring("721449827599186159274227324466"));
+        System.out.println();
 
 
     }
@@ -83,7 +90,7 @@ public class RobertJava {
 // single word and returns that word translated into pig latin. The second function translateSentence(sentence) takes
 // an English sentince and returns that sentence translated into pig latin.
 
-    public static String translateWord(String word) {
+    private static String translateWord(String word) {
         String specialHolder = "";
         if (word.equalsIgnoreCase("")) {
             return word;
@@ -127,7 +134,6 @@ public class RobertJava {
                 !wordArray[0].equalsIgnoreCase("i") && !wordArray[0].equalsIgnoreCase("o") &&
                 !wordArray[0].equalsIgnoreCase("u"));
 
-        String wordReturn;
         StringBuilder wordBuilder = new StringBuilder();
         for (String letter : wordArray) {
             wordBuilder.append(letter);
@@ -137,7 +143,7 @@ public class RobertJava {
 
     }
 
-    public static String translateSentence(String sentence) {
+    private static String translateSentence(String sentence) {
         String[] sentenceSplit = sentence.split("\\s+");
         for (int i = 0; i < sentenceSplit.length; i++) {
             sentenceSplit[i] = translateWord(sentenceSplit[i]);
@@ -158,7 +164,7 @@ public class RobertJava {
 //    site: https://edabit.com/challenge/KnpqDdkibon22Eexa
 //    Problem: Roman Numeral Converter
 //    Create a function that takes an Arabic number and converts it into a Roman number.
-    public static String convertToRoman(int num){
+    private static String convertToRoman(int num){
         String[] romanArray = new String[50];
         String roman;
         int index= 0;
@@ -230,8 +236,8 @@ public class RobertJava {
         System.arraycopy(romanArray, 0, cleanArray, 0, cleanArray.length);
 
         StringBuilder RomanBuilder = new StringBuilder();
-        for(int i = 0;i<cleanArray.length; i++){
-            RomanBuilder.append(cleanArray[i]);
+        for (String s : cleanArray) {
+            RomanBuilder.append(s);
         }
 
         return RomanBuilder.toString();
@@ -240,8 +246,53 @@ public class RobertJava {
 
     //    Problem 4
 //    site: https://edabit.com/challenge/De5e8kdsCFmKvc6w8
-//    Problem: Roman Numeral Converter
-//    Create a function that takes an Arabic number and converts it into a Roman number.
+//    Problem: Longest Alternating Substring
+//    Given a string of digits, return the longest substring with alternating odd/even or even/odd digits.
+//    If two or more substrings have the same length, return the substring that occurs first.
+    private static String longestSubstring(String str){
+        int[] checker = new int[str.length()];
+        ArrayList<String> substrings = new ArrayList<>();
+        for (int i = 0; i<checker.length; i++){
+            checker[i] = Integer.parseInt(String.valueOf(str.charAt(i)));
+        }
+        int startCheck = 0;
+        int endCheck;
+        String previousCheck = "";
+        String currentCheck;
+        for (int i = 0; i < checker.length; i++){
+            if (checker[i] % 2 == 0){
+                currentCheck = "even";
+            }else {
+                currentCheck = "odd";
+            }
+            if (previousCheck.equalsIgnoreCase("")){
+                previousCheck = currentCheck;
+                startCheck = i;
+            }else if (previousCheck.equalsIgnoreCase(currentCheck)){
+                previousCheck = currentCheck;
+                endCheck = i;
+                if (endCheck-startCheck != 1) {
+                    substrings.add(str.substring(startCheck, endCheck));
+                }
+                startCheck = i;
+            }else {
+                if (i+1 == checker.length){
+                    endCheck = i+1;
+                        substrings.add(str.substring(startCheck, endCheck));
+                }
+                previousCheck = currentCheck;
+            }
 
+        }
+
+        String largest = "";
+        for (String sub: substrings) {
+            if (largest.length() < sub.length()){
+                largest = sub;
+            }
+        }
+
+        return largest;
+    }
 
 }
