@@ -12,13 +12,19 @@ public class RobertJava {
 
 
 //        Problem 2
-        System.out.println(translateWord("flag"));
-        System.out.println(translateWord("Apple"));
-        System.out.println(translateWord("button"));
-        System.out.println(translateWord(""));
+//        System.out.println(translateWord("flag"));
+//        System.out.println(translateWord("Apple"));
+//        System.out.println(translateWord("button"));
+//        System.out.println(translateWord(""));
+//
+//        System.out.println(translateSentence("I like to eat honey waffles."));
+//        System.out.println(translateSentence("Do you think it is going to rain today?"));
 
-        System.out.println(translateSentence("I like to eat honey waffles."));
-        System.out.println(translateSentence("Do you think it is going to rain today?"));
+//        Problem 3
+        System.out.println(convertToRoman(2));
+        System.out.println(convertToRoman(12));
+        System.out.println(convertToRoman(16));
+//        System.out.println(convertToRoman(3999));
 
 
     }
@@ -148,8 +154,94 @@ public class RobertJava {
         return wordBuilder.toString();
     }
 
-    //    Problem 1
-//    site: https://edabit.com/challenge/6CkRcCdGAmCGPZnyb
-//    Problem: Remove The Word!
+    //    Problem 3
+//    site: https://edabit.com/challenge/KnpqDdkibon22Eexa
+//    Problem: Roman Numeral Converter
+//    Create a function that takes an Arabic number and converts it into a Roman number.
+    public static String convertToRoman(int num){
+        String[] romanArray = new String[50];
+        String roman;
+        int index= 0;
+        while (num > 0){
+            if (num >= 1000){
+                roman ="M";
+                num -= 1000;
+            } else if (num >= 500){
+                roman ="D";
+                num -= 500;
+            } else if (num >= 100){
+                roman ="C";
+                num -= 100;
+            } else if (num >= 50){
+              roman ="L";
+              num -= 50;
+            } else if (num >= 10){
+                roman = "X";
+                num -= 10;
+            }else {
+                switch (num){
+                    case 1:
+                        roman ="I";
+                        num = 0;
+                        break;
+                    case 2:
+                        roman="II";
+                        num = 0;
+                        break;
+                    case 3:
+                        roman="III";
+                        num = 0;
+                        break;
+                    case 4:
+                        roman = "IV";
+                        num = 0;
+                        break;
+                    case 5:
+                        roman = "V";
+                        num = 0;
+                        break;
+                    case 6:
+                        roman = "VI";
+                        num = 0;
+                        break;
+                    case 7:
+                        roman ="VII";
+                        num = 0;
+                        break;
+                    case 8:
+                        roman = "VIII";
+                        num = 0;
+                        break;
+                    case 9:
+                        roman = "IX";
+                        num = 0;
+                        break;
+                    default:
+                        roman = "";
+                        num = 0;
+                        break;
+                }
+            }
+
+            romanArray[index] = roman;
+            index++;
+        }
+        String[] cleanArray = new String[index];
+        System.arraycopy(romanArray, 0, cleanArray, 0, cleanArray.length);
+
+        StringBuilder RomanBuilder = new StringBuilder();
+        for(int i = 0;i<cleanArray.length; i++){
+            RomanBuilder.append(cleanArray[i]);
+        }
+
+        return RomanBuilder.toString();
+    }
+
+
+    //    Problem 4
+//    site: https://edabit.com/challenge/De5e8kdsCFmKvc6w8
+//    Problem: Roman Numeral Converter
+//    Create a function that takes an Arabic number and converts it into a Roman number.
+
 
 }
