@@ -33,6 +33,15 @@ public class RobertJava {
         System.out.println(longestSubstring("721449827599186159274227324466"));
         System.out.println();
 
+//        Problem 5
+        System.out.println(formula("6 * 4 = 24"));
+        System.out.println(formula("18 / 17 = 2"));
+        System.out.println(formula("16 * 10 = 160 = 40 + 120"));
+        System.out.println(formula("16 * 10 = 160 = 14 + 120"));
+        System.out.println(formula("16 * 10 = 160 = 10 + 120 + 30"));
+        System.out.println(formula("16 * 10 = 160 = 10 + 120 + 31"));
+        System.out.println();
+
 
     }
 
@@ -293,6 +302,123 @@ public class RobertJava {
         }
 
         return largest;
+    }
+
+    //    Problem 5
+//    site: https://edabit.com/challenge/MLzJD3iHnYZo566nA
+//    Problem: Check if the Formula is Correct
+//    Create a function that takes a string and returns true or false depending on whether or not
+//    the formula is correct.
+    private static Boolean formula(String form){
+        String[] formulaSplit = form.split("\\s+");
+        ArrayList<Integer> values = new ArrayList<>();
+        ArrayList<String> conditionals = new ArrayList<>();
+
+        for (String element: formulaSplit){
+//            boolean numeric = true;
+            try{
+                int num = Integer.parseInt(element);
+                values.add(num);
+            }catch (NumberFormatException e){
+//                numeric = false;
+                if (element.equalsIgnoreCase("=")){
+                    conditionals.add(element);
+                }else if (element.equalsIgnoreCase("+")){
+                    conditionals.add(element);
+                }else if (element.equalsIgnoreCase("-")){
+                    conditionals.add(element);
+                }else if (element.equalsIgnoreCase("*")){
+                    conditionals.add(element);
+                }else if (element.equalsIgnoreCase("/")){
+                    conditionals.add(element);
+                }else {
+                    return false;
+                }
+            }
+        }
+        int index = 0;
+        ArrayList<Integer> calc = new ArrayList<>();
+        int calculate = 0;
+        int reverseEquals = 0;
+//        int flipIndex;
+        int condIndex = 0;
+        Boolean reset = false;
+        Boolean reverse = false;
+        ArrayList<Boolean> equals = new ArrayList<>();
+        for (String condition: conditionals){
+            if (condition.equalsIgnoreCase("=")){
+                if (index == 0){
+                    reverseEquals = values.get(index);
+                    reverse = true;
+                    reset = true;
+                    index++;
+                }
+                if (!reverse){
+                    equals.add(calculate == values.get(index+1));
+                    reverseEquals = values.get(index+1);
+//                    flipIndex = index+1;
+                    index++;
+                    if (condIndex != conditionals.size()-1){
+                        reverse = true;
+                        reset = true;
+                    }
+                }else {
+                    calculate = 0;
+                    index++;
+                }
+
+            }else if (condition.equalsIgnoreCase("+")){
+                if (index == 0 || reset){
+                    calculate = values.get(index) + values.get(index+1);
+                    index++;
+                    reset = false;
+                }else {
+                    calculate += values.get(index+1);
+                    index++;
+                }
+
+            }else if (condition.equalsIgnoreCase("-")){
+                if (index == 0 || reset){
+                    calculate = values.get(index) - values.get(index+1);
+                    index++;
+                    reset = false;
+                }else {
+                    calculate -= values.get(index+1);
+                    index++;
+                }
+            }else if (condition.equalsIgnoreCase("*")){
+                if (index == 0 || reset){
+                    calculate = values.get(index) * values.get(index+1);
+                    index++;
+                    reset = false;
+                }else {
+                    calculate *= values.get(index+1);
+                    index++;
+                }
+            }else if (condition.equalsIgnoreCase("/")){
+                if (index == 0 || reset){
+                    calculate = values.get(index) / values.get(index+1);
+                    index++;
+                    reset = false;
+                }else {
+                    calculate /= values.get(index+1);
+                    index++;
+                }
+            }else {
+                return false;
+            }
+            condIndex++;
+        }
+        if (reverse){
+            equals.add(calculate == reverseEquals);
+        }
+
+        for (Boolean formula: equals) {
+            if (!formula){
+                return false;
+            }
+        }
+        return true;
     }
 
 }
