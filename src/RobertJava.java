@@ -173,38 +173,38 @@ public class RobertJava {
 //    site: https://edabit.com/challenge/KnpqDdkibon22Eexa
 //    Problem: Roman Numeral Converter
 //    Create a function that takes an Arabic number and converts it into a Roman number.
-    private static String convertToRoman(int num){
+    private static String convertToRoman(int num) {
         String[] romanArray = new String[50];
         String roman;
-        int index= 0;
-        while (num > 0){
-            if (num >= 1000){
-                roman ="M";
+        int index = 0;
+        while (num > 0) {
+            if (num >= 1000) {
+                roman = "M";
                 num -= 1000;
-            } else if (num >= 500){
-                roman ="D";
+            } else if (num >= 500) {
+                roman = "D";
                 num -= 500;
-            } else if (num >= 100){
-                roman ="C";
+            } else if (num >= 100) {
+                roman = "C";
                 num -= 100;
-            } else if (num >= 50){
-              roman ="L";
-              num -= 50;
-            } else if (num >= 10){
+            } else if (num >= 50) {
+                roman = "L";
+                num -= 50;
+            } else if (num >= 10) {
                 roman = "X";
                 num -= 10;
-            }else {
-                switch (num){
+            } else {
+                switch (num) {
                     case 1:
-                        roman ="I";
+                        roman = "I";
                         num = 0;
                         break;
                     case 2:
-                        roman="II";
+                        roman = "II";
                         num = 0;
                         break;
                     case 3:
-                        roman="III";
+                        roman = "III";
                         num = 0;
                         break;
                     case 4:
@@ -220,7 +220,7 @@ public class RobertJava {
                         num = 0;
                         break;
                     case 7:
-                        roman ="VII";
+                        roman = "VII";
                         num = 0;
                         break;
                     case 8:
@@ -258,36 +258,36 @@ public class RobertJava {
 //    Problem: Longest Alternating Substring
 //    Given a string of digits, return the longest substring with alternating odd/even or even/odd digits.
 //    If two or more substrings have the same length, return the substring that occurs first.
-    private static String longestSubstring(String str){
+    private static String longestSubstring(String str) {
         int[] checker = new int[str.length()];
         ArrayList<String> substrings = new ArrayList<>();
-        for (int i = 0; i<checker.length; i++){
+        for (int i = 0; i < checker.length; i++) {
             checker[i] = Integer.parseInt(String.valueOf(str.charAt(i)));
         }
         int startCheck = 0;
         int endCheck;
         String previousCheck = "";
         String currentCheck;
-        for (int i = 0; i < checker.length; i++){
-            if (checker[i] % 2 == 0){
+        for (int i = 0; i < checker.length; i++) {
+            if (checker[i] % 2 == 0) {
                 currentCheck = "even";
-            }else {
+            } else {
                 currentCheck = "odd";
             }
-            if (previousCheck.equalsIgnoreCase("")){
+            if (previousCheck.equalsIgnoreCase("")) {
                 previousCheck = currentCheck;
                 startCheck = i;
-            }else if (previousCheck.equalsIgnoreCase(currentCheck)){
+            } else if (previousCheck.equalsIgnoreCase(currentCheck)) {
                 previousCheck = currentCheck;
                 endCheck = i;
-                if (endCheck-startCheck != 1) {
+                if (endCheck - startCheck != 1) {
                     substrings.add(str.substring(startCheck, endCheck));
                 }
                 startCheck = i;
-            }else {
-                if (i+1 == checker.length){
-                    endCheck = i+1;
-                        substrings.add(str.substring(startCheck, endCheck));
+            } else {
+                if (i + 1 == checker.length) {
+                    endCheck = i + 1;
+                    substrings.add(str.substring(startCheck, endCheck));
                 }
                 previousCheck = currentCheck;
             }
@@ -295,8 +295,8 @@ public class RobertJava {
         }
 
         String largest = "";
-        for (String sub: substrings) {
-            if (largest.length() < sub.length()){
+        for (String sub : substrings) {
+            if (largest.length() < sub.length()) {
                 largest = sub;
             }
         }
@@ -309,112 +309,116 @@ public class RobertJava {
 //    Problem: Check if the Formula is Correct
 //    Create a function that takes a string and returns true or false depending on whether or not
 //    the formula is correct.
-    private static Boolean formula(String form){
+    private static Boolean formula(String form) {
         String[] formulaSplit = form.split("\\s+");
         ArrayList<Integer> values = new ArrayList<>();
         ArrayList<String> conditionals = new ArrayList<>();
 
-        for (String element: formulaSplit){
+        for (String element : formulaSplit) {
 //            boolean numeric = true;
-            try{
+            try {
                 int num = Integer.parseInt(element);
                 values.add(num);
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
 //                numeric = false;
-                if (element.equalsIgnoreCase("=")){
+                if (element.equalsIgnoreCase("=")) {
                     conditionals.add(element);
-                }else if (element.equalsIgnoreCase("+")){
+                } else if (element.equalsIgnoreCase("+")) {
                     conditionals.add(element);
-                }else if (element.equalsIgnoreCase("-")){
+                } else if (element.equalsIgnoreCase("-")) {
                     conditionals.add(element);
-                }else if (element.equalsIgnoreCase("*")){
+                } else if (element.equalsIgnoreCase("*")) {
                     conditionals.add(element);
-                }else if (element.equalsIgnoreCase("/")){
+                } else if (element.equalsIgnoreCase("/")) {
                     conditionals.add(element);
-                }else {
+                } else {
                     return false;
                 }
             }
         }
         int index = 0;
-        ArrayList<Integer> calc = new ArrayList<>();
+//        ArrayList<Integer> calc = new ArrayList<>();
         int calculate = 0;
         int reverseEquals = 0;
 //        int flipIndex;
         int condIndex = 0;
-        Boolean reset = false;
-        Boolean reverse = false;
+        boolean reset = false;
+        boolean reverse = false;
         ArrayList<Boolean> equals = new ArrayList<>();
-        for (String condition: conditionals){
-            if (condition.equalsIgnoreCase("=")){
-                if (index == 0){
+        for (String condition : conditionals) {
+            if (condition.equalsIgnoreCase("=")) {
+//                if (condIndex+1 < conditionals.size()-1 && !conditionals.get(condIndex+1).equalsIgnoreCase("=")){
+//
+//                }
+                if (index == 0) {
                     reverseEquals = values.get(index);
                     reverse = true;
                     reset = true;
                     index++;
                 }
-                if (!reverse){
-                    equals.add(calculate == values.get(index+1));
-                    reverseEquals = values.get(index+1);
+                if (!reverse) {
+
+                    equals.add(calculate == values.get(index + 1));
+                    reverseEquals = values.get(index + 1);
 //                    flipIndex = index+1;
                     index++;
-                    if (condIndex != conditionals.size()-1){
+                    if (condIndex != conditionals.size() - 1) {
                         reverse = true;
                         reset = true;
                     }
-                }else {
+                } else {
                     calculate = 0;
                     index++;
                 }
 
-            }else if (condition.equalsIgnoreCase("+")){
-                if (index == 0 || reset){
-                    calculate = values.get(index) + values.get(index+1);
+            } else if (condition.equalsIgnoreCase("+")) {
+                if (index == 0 || reset) {
+                    calculate = values.get(index) + values.get(index + 1);
                     index++;
                     reset = false;
-                }else {
-                    calculate += values.get(index+1);
+                } else {
+                    calculate += values.get(index + 1);
                     index++;
                 }
 
-            }else if (condition.equalsIgnoreCase("-")){
-                if (index == 0 || reset){
-                    calculate = values.get(index) - values.get(index+1);
+            } else if (condition.equalsIgnoreCase("-")) {
+                if (index == 0 || reset) {
+                    calculate = values.get(index) - values.get(index + 1);
                     index++;
                     reset = false;
-                }else {
-                    calculate -= values.get(index+1);
+                } else {
+                    calculate -= values.get(index + 1);
                     index++;
                 }
-            }else if (condition.equalsIgnoreCase("*")){
-                if (index == 0 || reset){
-                    calculate = values.get(index) * values.get(index+1);
+            } else if (condition.equalsIgnoreCase("*")) {
+                if (index == 0 || reset) {
+                    calculate = values.get(index) * values.get(index + 1);
                     index++;
                     reset = false;
-                }else {
-                    calculate *= values.get(index+1);
+                } else {
+                    calculate *= values.get(index + 1);
                     index++;
                 }
-            }else if (condition.equalsIgnoreCase("/")){
-                if (index == 0 || reset){
-                    calculate = values.get(index) / values.get(index+1);
+            } else if (condition.equalsIgnoreCase("/")) {
+                if (index == 0 || reset) {
+                    calculate = values.get(index) / values.get(index + 1);
                     index++;
                     reset = false;
-                }else {
-                    calculate /= values.get(index+1);
+                } else {
+                    calculate /= values.get(index + 1);
                     index++;
                 }
-            }else {
+            } else {
                 return false;
             }
             condIndex++;
         }
-        if (reverse){
+        if (reverse) {
             equals.add(calculate == reverseEquals);
         }
 
-        for (Boolean formula: equals) {
-            if (!formula){
+        for (Boolean formula : equals) {
+            if (!formula) {
                 return false;
             }
         }
