@@ -42,6 +42,10 @@ public class RobertJava {
         System.out.println(formula("16 * 10 = 160 = 10 + 120 + 31"));
         System.out.println();
 
+//        ***************************** WEEK 2 **************************************
+//        Problem 1
+
+
 
     }
 
@@ -424,5 +428,31 @@ public class RobertJava {
         }
         return true;
     }
+
+//    Problem 1
+//    site: N/A
+//    Problem: make 3 methods that will take in a string that counts: the number of times each word is used,
+//      the number of each vowel is used, the number of times each word starts a sentence.
+//    hint: hashmaps, and linklists.
+    public static HashMap<String,Integer> countWords(String paragraph){
+        HashMap<String,Integer> wordsCount = new HashMap<>();
+        return wordsCount;
+    }
+
+    public static HashMap<String,Integer> countVowels(String paragraph){
+        HashMap<String,Integer> vowelsCount = new HashMap<>();
+        return vowelsCount;
+    }
+
+    public static HashMap<String,Integer> countBeginings(String paragraph){
+        HashMap<String,Integer> startCount = new HashMap<>();
+        return startCount;
+    }
+
+
+
+
+
+
 
 }
