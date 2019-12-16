@@ -1,4 +1,6 @@
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RobertJava {
     public static void main(String[] args) {
@@ -44,9 +46,18 @@ public class RobertJava {
 
 //        ***************************** WEEK 2 **************************************
 //        Problem 1
+        String paragraph = "Sunset is the time of day when our sky meets the outer space solar winds. " +
+                "There are blue, pink, and purple swirls, spinning and twisting, like clouds of balloons caught " +
+                "in a whirlwind. The sun moves slowly to hide behind the line of horizon, while the moon races to " +
+                "take its place in prominence atop the night sky. People slow to a crawl, entranced, fully " +
+                "forgetting the deeds that must still be done. There is a coolness, a calmness, when the sun does set.";
 
-
-
+        HashMap<String,Integer> wordsCount = countWords(paragraph);
+        System.out.println("*****************************************************");
+        for (HashMap.Entry<String,Integer> word: wordsCount.entrySet()) {
+            System.out.printf("%s - %s%n",word.getKey(),word.getValue());
+        }
+        System.out.println("*****************************************************");
     }
 
     //    Problem 1
@@ -436,6 +447,20 @@ public class RobertJava {
 //    hint: hashmaps, and linklists.
     public static HashMap<String,Integer> countWords(String paragraph){
         HashMap<String,Integer> wordsCount = new HashMap<>();
+//        ArrayList<String> wordsSplit = new ArrayList<>();
+        String[] words = paragraph.split("\\s+");
+        int counter;
+        for (int i = 0; i < words.length; i++) {
+            words[i] = words[i].replaceAll("[^a-zA-Z0-9]", "");
+            words[i] = words[i].toLowerCase();
+            if (wordsCount.containsKey(words[i])){
+                counter = wordsCount.get(words[i]);
+                counter++;
+                wordsCount.replace(words[i],counter);
+            }else {
+                wordsCount.put(words[i],1);
+            }
+        }
         return wordsCount;
     }
 
