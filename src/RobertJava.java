@@ -58,6 +58,33 @@ public class RobertJava {
             System.out.printf("%s - %s%n",word.getKey(),word.getValue());
         }
         System.out.println("*****************************************************");
+
+        HashMap<String,Integer> vowelsCount = countVowels(paragraph);
+        System.out.println("*****************************************************");
+        for (HashMap.Entry<String,Integer> word: vowelsCount.entrySet()) {
+            System.out.printf("%s - %s%n",word.getKey(),word.getValue());
+        }
+        System.out.println("*****************************************************");
+
+        HashMap<String,Integer> startCount = countBeginings(paragraph);
+        System.out.println("*****************************************************");
+        for (HashMap.Entry<String,Integer> word: startCount.entrySet()) {
+            System.out.printf("%s - %s%n",word.getKey(),word.getValue());
+        }
+        System.out.println("*****************************************************");
+
+//        Problem 2
+        System.out.println();
+        String[] array = {"silly", "mom", "let", "the"};
+        System.out.println(oddOneOut(array));
+        String[] array2 = {"swanky", "rhino", "moment"};
+        System.out.println(oddOneOut(array2));
+        String[] array3 = {"the", "them", "theme"};
+        System.out.println(oddOneOut(array3));
+        String[] array4 = {"very", "to", "an", "some"};
+        System.out.println(oddOneOut(array4));
+
+
     }
 
     //    Problem 1
@@ -440,6 +467,10 @@ public class RobertJava {
         return true;
     }
 
+//    *********************************************************************************************
+//    **************************************** WEEK 2 *********************************************
+//    *********************************************************************************************
+//
 //    Problem 1
 //    site: N/A
 //    Problem: make 3 methods that will take in a string that counts: the number of times each word is used,
@@ -466,12 +497,86 @@ public class RobertJava {
 
     public static HashMap<String,Integer> countVowels(String paragraph){
         HashMap<String,Integer> vowelsCount = new HashMap<>();
+        String[] letters = paragraph.split("");
+        int counter;
+        for (String letter: letters) {
+            letter = letter.toLowerCase();
+            switch (letter){
+                case "a":
+                case "u":
+                case "o":
+                case "i":
+                case "e":
+                    if (vowelsCount.containsKey(letter)){
+                        counter = vowelsCount.get(letter);
+                        counter++;
+                        vowelsCount.replace(letter,counter);
+                    }else {
+                        vowelsCount.put(letter,1);
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
         return vowelsCount;
     }
 
     public static HashMap<String,Integer> countBeginings(String paragraph){
         HashMap<String,Integer> startCount = new HashMap<>();
+        String[] words = paragraph.split("\\s+");
+        int counter;
+        boolean newSentence = true;
+        for (String word: words) {
+            if (newSentence){
+                if (startCount.containsKey(word)){
+                    counter = startCount.get(word);
+                    counter++;
+                    startCount.replace(word,counter);
+                    newSentence = false;
+                }else {
+                    startCount.put(word,1);
+                    newSentence = false;
+                }
+            }else {
+                if (word.contains(".") || word.contains("?") || word.contains("!")){
+                    newSentence = true;
+                }
+            }
+
+        }
         return startCount;
+    }
+
+    //    Problem 2
+//    site: https://edabit.com/challenge/bpqfCQ7zumf5Ep24Z
+//    Problem: Odd One Out
+//    Write a function that returns true if exactly one word in the array differs in length from the rest.
+//    Return false in all other cases.
+
+    public static boolean oddOneOut(String[] words){
+        HashMap<Integer,Integer> matches = new HashMap<>();
+        int[] wordLength = new int[words.length];
+        int numOfMatches = 0;
+//        boolean oneOff = false;
+        for (String word : words) {
+            if (matches.containsKey(word.length())) {
+                numOfMatches = matches.get(word.length());
+                numOfMatches++;
+                matches.replace(word.length(), numOfMatches);
+            } else {
+                matches.put(word.length(), 1);
+            }
+//            wordLength[i] = words[i].length();
+        }
+        for (Map.Entry<Integer,Integer> match: matches.entrySet()) {
+            if (match.getValue() == words.length-1){
+                return true;
+            }
+        }
+        return false;
     }
 
 
