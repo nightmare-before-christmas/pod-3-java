@@ -1,4 +1,6 @@
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RobertJava {
     public static void main(String[] args) {
@@ -41,6 +43,54 @@ public class RobertJava {
         System.out.println(formula("16 * 10 = 160 = 10 + 120 + 30"));
         System.out.println(formula("16 * 10 = 160 = 10 + 120 + 31"));
         System.out.println();
+
+//        ***************************** WEEK 2 **************************************
+//        Problem 1
+        String paragraph = "Sunset is the time of day when our sky meets the outer space solar winds. " +
+                "There are blue, pink, and purple swirls, spinning and twisting, like clouds of balloons caught " +
+                "in a whirlwind. The sun moves slowly to hide behind the line of horizon, while the moon races to " +
+                "take its place in prominence atop the night sky. People slow to a crawl, entranced, fully " +
+                "forgetting the deeds that must still be done. There is a coolness, a calmness, when the sun does set.";
+
+        HashMap<String,Integer> wordsCount = countWords(paragraph);
+        System.out.println("*****************************************************");
+        for (HashMap.Entry<String,Integer> word: wordsCount.entrySet()) {
+            System.out.printf("%s - %s%n",word.getKey(),word.getValue());
+        }
+        System.out.println("*****************************************************");
+
+        HashMap<String,Integer> vowelsCount = countVowels(paragraph);
+        System.out.println("*****************************************************");
+        for (HashMap.Entry<String,Integer> word: vowelsCount.entrySet()) {
+            System.out.printf("%s - %s%n",word.getKey(),word.getValue());
+        }
+        System.out.println("*****************************************************");
+
+        HashMap<String,Integer> startCount = countBeginings(paragraph);
+        System.out.println("*****************************************************");
+        for (HashMap.Entry<String,Integer> word: startCount.entrySet()) {
+            System.out.printf("%s - %s%n",word.getKey(),word.getValue());
+        }
+        System.out.println("*****************************************************");
+
+//        Problem 2
+        System.out.println();
+        String[] array = {"silly", "mom", "let", "the"};
+        System.out.println(oddOneOut(array));
+        String[] array2 = {"swanky", "rhino", "moment"};
+        System.out.println(oddOneOut(array2));
+        String[] array3 = {"the", "them", "theme"};
+        System.out.println(oddOneOut(array3));
+        String[] array4 = {"very", "to", "an", "some"};
+        System.out.println(oddOneOut(array4));
+
+//        problem 3
+        System.out.println();
+        System.out.println(edabitInString("eddaaabt"));
+        System.out.println(edabitInString("edwardisabletodoit"));
+        System.out.println(edabitInString("abecdfghijklmnopqrstuvwxyz"));
+        System.out.println(edabitInString("the dog ate the bed it sleeps in."));
+        System.out.println(edabitInString("tibade"));
 
 
     }
@@ -424,5 +474,144 @@ public class RobertJava {
         }
         return true;
     }
+
+//    *********************************************************************************************
+//    **************************************** WEEK 2 *********************************************
+//    *********************************************************************************************
+//
+//    Problem 1
+//    site: N/A
+//    Problem: make 3 methods that will take in a string that counts: the number of times each word is used,
+//      the number of each vowel is used, the number of times each word starts a sentence.
+//    hint: hashmaps, and linklists.
+    public static HashMap<String,Integer> countWords(String paragraph){
+        HashMap<String,Integer> wordsCount = new HashMap<>();
+//        ArrayList<String> wordsSplit = new ArrayList<>();
+        String[] words = paragraph.split("\\s+");
+        int counter;
+        for (int i = 0; i < words.length; i++) {
+            words[i] = words[i].replaceAll("[^a-zA-Z0-9]", "");
+            words[i] = words[i].toLowerCase();
+            if (wordsCount.containsKey(words[i])){
+                counter = wordsCount.get(words[i]);
+                counter++;
+                wordsCount.replace(words[i],counter);
+            }else {
+                wordsCount.put(words[i],1);
+            }
+        }
+        return wordsCount;
+    }
+
+    public static HashMap<String,Integer> countVowels(String paragraph){
+        HashMap<String,Integer> vowelsCount = new HashMap<>();
+        String[] letters = paragraph.split("");
+        int counter;
+        for (String letter: letters) {
+            letter = letter.toLowerCase();
+            switch (letter){
+                case "a":
+                case "u":
+                case "o":
+                case "i":
+                case "e":
+                    if (vowelsCount.containsKey(letter)){
+                        counter = vowelsCount.get(letter);
+                        counter++;
+                        vowelsCount.replace(letter,counter);
+                    }else {
+                        vowelsCount.put(letter,1);
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+        return vowelsCount;
+    }
+
+    public static HashMap<String,Integer> countBeginings(String paragraph){
+        HashMap<String,Integer> startCount = new HashMap<>();
+        String[] words = paragraph.split("\\s+");
+        int counter;
+        boolean newSentence = true;
+        for (String word: words) {
+            if (newSentence){
+                if (startCount.containsKey(word)){
+                    counter = startCount.get(word);
+                    counter++;
+                    startCount.replace(word,counter);
+                    newSentence = false;
+                }else {
+                    startCount.put(word,1);
+                    newSentence = false;
+                }
+            }else {
+                if (word.contains(".") || word.contains("?") || word.contains("!")){
+                    newSentence = true;
+                }
+            }
+
+        }
+        return startCount;
+    }
+
+    //    Problem 2
+//    site: https://edabit.com/challenge/bpqfCQ7zumf5Ep24Z
+//    Problem: Odd One Out
+//    Write a function that returns true if exactly one word in the array differs in length from the rest.
+//    Return false in all other cases.
+
+    public static boolean oddOneOut(String[] words){
+        HashMap<Integer,Integer> matches = new HashMap<>();
+        int[] wordLength = new int[words.length];
+        int numOfMatches = 0;
+//        boolean oneOff = false;
+        for (String word : words) {
+            if (matches.containsKey(word.length())) {
+                numOfMatches = matches.get(word.length());
+                numOfMatches++;
+                matches.replace(word.length(), numOfMatches);
+            } else {
+                matches.put(word.length(), 1);
+            }
+//            wordLength[i] = words[i].length();
+        }
+        for (Map.Entry<Integer,Integer> match: matches.entrySet()) {
+            if (match.getValue() == words.length-1){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //    Problem 3
+//    site: https://edabit.com/challenge/3yzvdLMYJbczD548d
+//    Problem: Is Edabit in the String?
+//    A string contains the word "edabit" if a subsequence of its characters spell "edabit".
+//    Write a function that accepts a string and returns “YES” if the string contains a subsequence of the
+//    word edabit or "NO" if it does not.
+
+    public static String edabitInString(String word){
+        String[] edabit = {"e","d","a","b","i","t"};
+        word = word.toLowerCase();
+        String[] letters = word.split("");
+        int matchindex = 0;
+        for (String letter: letters) {
+            if (letter.equalsIgnoreCase(edabit[matchindex])){
+                matchindex++;
+                if (matchindex == edabit.length){
+                    return "YES";
+                }
+            }
+        }
+        return "NO";
+    }
+
+
+
+
 
 }
