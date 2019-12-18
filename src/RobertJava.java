@@ -84,6 +84,14 @@ public class RobertJava {
         String[] array4 = {"very", "to", "an", "some"};
         System.out.println(oddOneOut(array4));
 
+//        problem 3
+        System.out.println();
+        System.out.println(edabitInString("eddaaabt"));
+        System.out.println(edabitInString("edwardisabletodoit"));
+        System.out.println(edabitInString("abecdfghijklmnopqrstuvwxyz"));
+        System.out.println(edabitInString("the dog ate the bed it sleeps in."));
+        System.out.println(edabitInString("tibade"));
+
 
     }
 
@@ -579,7 +587,28 @@ public class RobertJava {
         return false;
     }
 
+    //    Problem 3
+//    site: https://edabit.com/challenge/3yzvdLMYJbczD548d
+//    Problem: Is Edabit in the String?
+//    A string contains the word "edabit" if a subsequence of its characters spell "edabit".
+//    Write a function that accepts a string and returns “YES” if the string contains a subsequence of the
+//    word edabit or "NO" if it does not.
 
+    public static String edabitInString(String word){
+        String[] edabit = {"e","d","a","b","i","t"};
+        word = word.toLowerCase();
+        String[] letters = word.split("");
+        int matchindex = 0;
+        for (String letter: letters) {
+            if (letter.equalsIgnoreCase(edabit[matchindex])){
+                matchindex++;
+                if (matchindex == edabit.length){
+                    return "YES";
+                }
+            }
+        }
+        return "NO";
+    }
 
 
 
