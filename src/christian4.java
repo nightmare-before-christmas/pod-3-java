@@ -13,12 +13,12 @@ public class christian4
 
     public static void main(String[] args)
     {
-        System.out.println("Original arraay:");
+        System.out.println("Original array:");
         System.out.println(Arrays.toString(array));
 
         rotate_array();
 
-        System.out.println("Rotated arraay:");
+        System.out.println("Rotated array:");
         System.out.println(Arrays.toString(array));
     }
 }
