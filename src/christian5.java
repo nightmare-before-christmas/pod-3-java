@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 
 public class christian5 {
 
-    public static void main(String a[]){
+    public static void main(String args[]){
         BufferedReader br = null;
         String strLine = "";
         try {
